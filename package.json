@@ -1,0 +1,22 @@
+{
+  "name": "blockchain-hotel-ari",
+  "version": "1.0.0",
+  "description": "Blockchain powered hotel ari sync system",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akash1304/blockchain-hotel-ari.git"
+  },
+  "author": "akash.panigrahi1@oyorooms.com",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Akash1304/blockchain-hotel-ari/issues"
+  },
+  "homepage": "https://github.com/Akash1304/blockchain-hotel-ari#readme"
+}
