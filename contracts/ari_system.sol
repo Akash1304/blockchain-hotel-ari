@@ -1,4 +1,5 @@
-pragma solidity ^0.4.24;
+// SPDX-License-Identifier: MIT
+pragma solidity >=0.4.22 <0.9.0;
 
 
 contract UserContract{
@@ -72,9 +73,9 @@ contract ARIContract is HouseContract{
         require(house_owner_map[house_id] != address(0),"404:House not created");
         require(houseAriMap[house_id][rangeHash].from_date != 0,"404:Range not found");
         require(houseAriMap[house_id][rangeHash].available != false,"404:Range is not available");
-        require(houseAriMap[house_id][rangeHash].block_timestamp < now,"410: Range is booked earlier.");
+        require(houseAriMap[house_id][rangeHash].block_timestamp < block.timestamp,"410: Range is booked earlier.");
         houseAriMap[house_id][rangeHash].available = false;
-        houseAriMap[house_id][rangeHash].block_timestamp = now;
+        houseAriMap[house_id][rangeHash].block_timestamp = block.timestamp;
         houseAriMap[house_id][rangeHash].modifying_entity = msg.sender;
         return rangeHash;
         
