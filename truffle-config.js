@@ -1,5 +1,5 @@
 var HDWalletProvider = require("truffle-hdwallet-provider");
-const MNEMONIC = 'mention foam fox front ankle gold wage powder heart maple nothing history';
+const MNEMONIC = 'holiday scrub knock long plastic early describe comic fix decrease test vanish';
 
 module.exports = {
   networks: {
@@ -10,7 +10,7 @@ module.exports = {
     },
     ropsten: {
       provider: function() {
-        return new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/v3/3a31841620564165a0347e0cdeef446d")
+        return new HDWalletProvider(MNEMONIC, "https://ropsten.infura.io/v3/e77fc38ae79c418fb63fa0214beac51e")
       },
       network_id: 3,
       gas: 4000000      //make sure this gas allocation isn't over 4M, which is the max
