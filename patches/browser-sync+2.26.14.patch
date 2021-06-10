@@ -1,0 +1,20 @@
+diff --git a/node_modules/browser-sync/dist/default-config.js b/node_modules/browser-sync/dist/default-config.js
+index f209b0e..b225970 100644
+--- a/node_modules/browser-sync/dist/default-config.js
++++ b/node_modules/browser-sync/dist/default-config.js
+@@ -283,13 +283,13 @@ module.exports = {
+      * @type Boolean|String
+      * @default true
+      */
+-    open: "local",
++    open: false,
+     /**
+      * @property browser
+      * @type String|Array
+      * @default default
+      */
+-    browser: "default",
++    browser: "chrome.exe",
+     /**
+      * Add HTTP access control (CORS) headers to assets served by Browsersync.
+      * @property cors
