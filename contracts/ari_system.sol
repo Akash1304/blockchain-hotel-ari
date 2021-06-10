@@ -85,7 +85,7 @@ contract ARIContract is HouseContract{
         bytes32 rangeHash = sha256(abi.encode(_from_date,_to_date));
         require(house_owner_map[house_id] != address(0),"404:House not created");
         require(houseAriMap[house_id][rangeHash].from_date != 0,"404:Range not found");
-        require(houseAriMap[house_id][rangeHash].available != true,"404:Range is not blocked");
+        require(houseAriMap[house_id][rangeHash].available == false,"404:Range is not blocked");
         require(houseAriMap[house_id][rangeHash].modifying_entity == msg.sender,"403: Not your blocking to release!");
         houseAriMap[house_id][rangeHash].available = true;
         houseAriMap[house_id][rangeHash].block_timestamp = 0;
