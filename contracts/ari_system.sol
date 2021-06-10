@@ -16,6 +16,16 @@ contract UserContract{
         users[msg.sender] = userType;
         return users[msg.sender];
     }
+
+        function getUserByAddress(address queryAddress) public view validateUser returns(string memory){
+        if(users[queryAddress]==accessor(0)){
+            return "none";
+        }
+        if(users[queryAddress]==accessor(1)){
+            return "inventory_partner";
+        }
+        return "ota_partner";
+    }
     
 }
 
