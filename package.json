@@ -16,9 +16,6 @@
   },
   "author": "akash.panigrahi1@oyorooms.com",
   "license": "ISC",
-  "devDependencies": {
-    "nodemon": "^1.17.3"
-  },
   "bugs": {
     "url": "https://github.com/Akash1304/blockchain-hotel-ari/issues"
   },
