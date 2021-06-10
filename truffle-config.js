@@ -2,12 +2,6 @@ var HDWalletProvider = require("truffle-hdwallet-provider");
 require('dotenv').config();
 //const MNEMONIC = 'holiday scrub knock long plastic early describe comic fix decrease test vanish';
 
-const port = process.env.PORT || 5000
-
-app.listen(port, function(){
-  console.log("Server started successfully");
-});
-
 module.exports = {
   networks: {
     development: {

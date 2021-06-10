@@ -1,11 +1,15 @@
 {
-    "server": {
-      "baseDir": [
-        "./src",
-        "./build/contracts"
-      ],
-      "routes": {
-        "/vendor": "./node_modules"
-      }
+  "port" : 5000,
+  "ui": {
+    "port": 5001
+  },
+  "server": {
+    "baseDir": [
+      "./src",
+      "./build/contracts"
+    ],
+    "routes": {
+      "/vendor": "./node_modules"
     }
   }
+}
