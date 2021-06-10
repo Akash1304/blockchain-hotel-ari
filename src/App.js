@@ -1,8 +1,3 @@
-const port = process.env.PORT || 5000
-
-app.listen(port, function(){
-  console.log("Server started successfully");
-});
 App = {
     loading: false,
     contracts: {},
@@ -149,7 +144,6 @@ App = {
   }
   
   $(() => {
-    App.listen(process.env.PORT || 5000);
     $(window).load(() => {
       App.load()
     })
