@@ -93,7 +93,6 @@ App = {
 
         var startDate = new Date(fromDate.toNumber() * 1000);
         var endDate = new Date(toDate.toNumber() * 1000);
-        var modifiedDate = new Date(block_timestamp.toNumber() * 1000);
 
         // Create the html for the task
         const $newariTemplate = $ariTemplate.clone()
@@ -102,7 +101,7 @@ App = {
         $newariTemplate.find('.price').html(price.toString())
         $newariTemplate.find('.available').html(available)
         if(block_timestamp != 0)
-            $newariTemplate.find('.block_timestamp').html(modifiedDate.getDate()+"/"+modifiedDate.getMonth()+"/"+modifiedDate.getFullYear())
+            $newariTemplate.find('.block_timestamp').html(new Date(block_timestamp.toNumber() * 1000))
         else
             $newariTemplate.find('.block_timestamp').html(0)
         $newariTemplate.find('.modifyingEntity').html(modifying_entity)
