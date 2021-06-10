@@ -31,7 +31,6 @@
     "truffle-hdwallet-provider": "^1.0.17"
   },
   "engines": {
-    "node": "5.0.0",
-    "npm": "4.6.1"
+    "node": "5.0.0"
   }
 }
