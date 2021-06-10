@@ -1,3 +1,4 @@
+
 App = {
     loading: false,
     contracts: {},
@@ -11,50 +12,48 @@ App = {
   
     // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
     loadWeb3: async () => {
-      if (typeof web3 !== 'undefined') {
-        App.web3Provider = web3.currentProvider
-        web3 = new Web3(web3.currentProvider)
-      } else {
-        window.alert("Please connect to Metamask.")
-      }
-      // Modern dapp browsers...
-      if (window.ethereum) {
-        window.web3 = new Web3(ethereum)
+      if (window.ethereum) { //check if Metamask is installed
         try {
-          // Request account access if needed
-          await ethereum.enable()
-          // Acccounts now exposed
-          web3.eth.sendTransaction({/* ... */})
+            const address = await ethereum.request({ method: 'eth_requestAccounts' }); //connect Metamask
+            const obj = {
+                    connectedStatus: true,
+                    status: "",
+                    address: address
+                }
+                return obj;
+             
         } catch (error) {
-          // User denied account access...
+            return {
+                connectedStatus: false,
+                status: "🦊 Connect to Metamask using the button on the top right."
+            }
         }
-      }
-      // Legacy dapp browsers...
-      else if (window.web3) {
-        App.web3Provider = web3.currentProvider
-        window.web3 = new Web3(web3.currentProvider)
-        // Acccounts always exposed
-        web3.eth.sendTransaction({/* ... */})
-      }
-      // Non-dapp browsers...
-      else {
-        console.log('Non-Ethereum browser detected. You should consider trying MetaMask!')
-      }
+        
+  } else {
+        return {
+            connectedStatus: false,
+            status: "🦊 You must install Metamask into your browser: https://metamask.io/download.html"
+        }
+      } 
     },
   
     loadAccount: async () => {
       // Set the current blockchain account
-      App.account = web3.eth.accounts[0]
+      App.account = await ethereum.request({ method: 'eth_accounts' });
+      console.log(App.account);
     },
   
     loadContract: async () => {
-      // Create a JavaScript version of the smart contract
+      // // Create a JavaScript version of the smart contract
       const ariContract = await $.getJSON('ARIContract.json')
       App.contracts.ariContract = TruffleContract(ariContract)
-      App.contracts.ariContract.setProvider(App.web3Provider)
+      App.contracts.ariContract.setProvider(window.ethereum)
   
       // Hydrate the smart contract with values from the blockchain
-      App.ariContract = await App.contracts.ARIContract.deployed()
+      App.ariContract = await App.contracts.ariContract.deployed()
+
+      console.log(App.ariContract)
+
     },
   
     render: async () => {
