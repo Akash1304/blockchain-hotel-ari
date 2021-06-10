@@ -11,7 +11,7 @@ contract UserContract{
         _;
     }
     
-    function onboardUser(accessor userType) external returns(accessor){
+    function onboardUser(accessor userType) public returns(accessor){
         require(users[msg.sender] == accessor(0),"400: User already exits");
         users[msg.sender] = userType;
         return users[msg.sender];
@@ -39,6 +39,13 @@ contract HouseContract is UserContract{
 }
 
 contract ARIContract is HouseContract{
+
+    constructor() public {
+      accessor choice = accessor.inventory_partner;
+      onboardUser(choice);
+      createHouse(1);
+      createARIForHouseByRange(1,1623064189,1623323389,256);
+   }
     
     struct Range{
         uint256 from_date;
@@ -53,6 +60,10 @@ contract ARIContract is HouseContract{
     
     //In order to fetch and display all ARI
     mapping(uint256 => bytes32[]) public houseArikeyMap;
+
+    function getARICount(uint256 houseId) public view returns (uint256){
+        return houseArikeyMap[houseId].length;
+    }
     
     function createARIForHouseByRange(uint256 house_id, uint256 _from_date, uint256 _to_date, int256 _price) public validateUser returns (bytes32){
         require(users[msg.sender] == accessor(1),"403:Unauthorized");

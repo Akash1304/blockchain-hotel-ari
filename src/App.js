@@ -56,9 +56,9 @@ App = {
   
     render: async () => {
       // Prevent double render
-      if (App.loading) {
-        return
-      }
+    //   if (App.loading) {
+    //     return
+    //   }
   
       // Update app loading state
       App.setLoading(true)
@@ -75,18 +75,21 @@ App = {
   
     renderHouse: async (houseId) => {
       // Load the total task count from the blockchain
-      const ariCount = 1
+      const ariCount = await App.ariContract.getARICount(houseId)
+      const count = ariCount.toNumber()
+      console.log(count)
       const $ariTemplate = $('.AriTemplate')
-      for (var i = 1; i <= ariCount; i++) {
+      for (var i = 0; i < count; i++) {
         // Fetch the task data from the blockchain
-        const houseAri = await App.ariContract.houseArikeyMap[houseId][1]
-        const currentAri = await App.ariContract.houseAriMap[houseId][houseAri]
-        const fromDate = currentAri.from_date()
-        const toDate = currentAri.to_date()
-        const price = currentAri.price()
-        const available = currentAri.available()
-        const block_timestamp = currentAri.block_timestamp()
-        const modifying_entity = currentAri.modifying_entity()
+        const houseAri = await App.ariContract.houseArikeyMap(houseId,i)
+        console.log(houseAri)
+        const currentAri = await App.ariContract.houseAriMap(houseId,houseAri)
+        const fromDate = currentAri.from_date
+        const toDate = currentAri.to_date
+        const price = currentAri.price
+        const available = currentAri.available
+        const block_timestamp = currentAri.block_timestamp
+        const modifying_entity = currentAri.modifying_entity
   
         // Create the html for the task
         const $newariTemplate = $ariTemplate.clone()
@@ -99,7 +102,8 @@ App = {
 
   
         // Show the task
-        $newTaskTemplate.show()
+        App.setLoading(false)
+        $newariTemplate.show()
       }
     },
   
@@ -107,7 +111,6 @@ App = {
       App.setLoading(true)
       const content = $('#houseId').val()
       await App.renderHouse(content)
-      window.location.reload()
     },
   
     toggleCompleted: async (e) => {
@@ -124,7 +127,7 @@ App = {
       const ariList = $('#ariList')
       if (boolean) {
         loader.show()
-        ariList.hide()
+        ariList.show()
       } else {
         loader.hide()
         ariList.show()
