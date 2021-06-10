@@ -4,27 +4,32 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract UserContract{
     enum accessor { default_val,inventory_partner, ota_partner }
-    mapping (address => accessor) public users;
+
+    struct User{
+        string name;
+        accessor accessorType;
+    }
+    mapping (address => User) public users;
     
     modifier validateUser{
-        require(users[msg.sender] != accessor(0),"403:Unauthorized");
+        require(users[msg.sender].accessorType != accessor(0),"403:Unauthorized");
         _;
     }
     
-    function onboardUser(accessor userType) public returns(accessor){
-        require(users[msg.sender] == accessor(0),"400: User already exits");
-        users[msg.sender] = userType;
-        return users[msg.sender];
+    function onboardUser(string memory _name, accessor userType) public returns(string memory){
+        require(users[msg.sender].accessorType == accessor(0),"400: User already exits");
+        User memory user;
+        user.name = _name;
+        user.accessorType = userType;
+        users[msg.sender] = user;
+        return users[msg.sender].name;
     }
 
-        function getUserByAddress(address queryAddress) public view validateUser returns(string memory){
-        if(users[queryAddress]==accessor(0)){
+    function getUserByAddress(address queryAddress) public view validateUser returns(string memory){
+        if(users[queryAddress].accessorType==accessor(0)){
             return "none";
         }
-        if(users[queryAddress]==accessor(1)){
-            return "inventory_partner";
-        }
-        return "ota_partner";
+        return users[queryAddress].name;
     }
     
 }
@@ -34,14 +39,14 @@ contract HouseContract is UserContract{
     mapping (uint256 => address) public house_owner_map;
     
     function createHouse(uint256 house_id) public validateUser returns (bool){
-        require(users[msg.sender] == accessor(1),"403:Unauthorized");
+        require(users[msg.sender].accessorType == accessor(1),"403:Unauthorized");
         require(house_owner_map[house_id] == address(0),"400: House already exists!");
         house_owner_map[house_id] = msg.sender;
         return true;
     }
     
     function deleteHouse(uint256 house_id) public validateUser returns (bool){
-        require(users[msg.sender] == accessor(1),"403:Unauthorized");
+        require(users[msg.sender].accessorType == accessor(1),"403:Unauthorized");
         require(house_owner_map[house_id] != address(0),"404: House not found!");
         house_owner_map[house_id] = address(0);
     }
@@ -52,7 +57,7 @@ contract ARIContract is HouseContract{
 
     constructor() public {
       accessor choice = accessor.inventory_partner;
-      onboardUser(choice);
+      onboardUser("new_partner",choice);
       createHouse(1);
       createARIForHouseByRange(1,1623064189,1623323389,256);
    }
@@ -76,7 +81,7 @@ contract ARIContract is HouseContract{
     }
     
     function createARIForHouseByRange(uint256 house_id, uint256 _from_date, uint256 _to_date, int256 _price) public validateUser returns (bytes32){
-        require(users[msg.sender] == accessor(1),"403:Unauthorized");
+        require(users[msg.sender].accessorType == accessor(1),"403:Unauthorized");
         require(house_owner_map[house_id] != address(0),"House not created");
         Range memory newRange;
         newRange.from_date = _from_date;
