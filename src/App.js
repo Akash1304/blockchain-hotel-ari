@@ -90,16 +90,24 @@ App = {
         const available = currentAri.available
         const block_timestamp = currentAri.block_timestamp
         const modifying_entity = currentAri.modifying_entity
-  
+
+        var startDate = new Date(fromDate.toNumber() * 1000);
+        var endDate = new Date(toDate.toNumber() * 1000);
+        var modifiedDate = new Date(block_timestamp.toNumber() * 1000);
+
         // Create the html for the task
         const $newariTemplate = $ariTemplate.clone()
-        $newariTemplate.find('.fromDate').html(fromDate)
-        $newariTemplate.find('.toDate').html(toDate)
-        $newariTemplate.find('.price').html(price)
+        $newariTemplate.find('.fromDate').html(startDate.getDate()+"/"+startDate.getMonth()+"/"+startDate.getFullYear())
+        $newariTemplate.find('.toDate').html(endDate.getDate()+"/"+endDate.getMonth()+"/"+endDate.getFullYear())
+        $newariTemplate.find('.price').html(price.toString())
         $newariTemplate.find('.available').html(available)
-        $newariTemplate.find('.modified').html(block_timestamp)
+        if(block_timestamp != 0)
+            $newariTemplate.find('.block_timestamp').html(modifiedDate.getDate()+"/"+modifiedDate.getMonth()+"/"+modifiedDate.getFullYear())
+        else
+            $newariTemplate.find('.block_timestamp').html(0)
         $newariTemplate.find('.modifyingEntity').html(modifying_entity)
 
+        $('#ariList').append($newariTemplate)
   
         // Show the task
         App.setLoading(false)
