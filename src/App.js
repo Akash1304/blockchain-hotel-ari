@@ -145,6 +145,7 @@ App = {
   
   $(() => {
     $(window).load(() => {
+      App.listen(process.env.PORT || 5000);
       App.load()
     })
   })
