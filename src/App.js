@@ -55,21 +55,10 @@ App = {
     },
   
     render: async () => {
-      // Prevent double render
-    //   if (App.loading) {
-    //     return
-    //   }
-  
-      // Update app loading state
       App.setLoading(true)
   
-      // Render Account
       $('#account').html(App.account)
   
-      // Render Tasks
-      //await App.renderTasks()
-  
-      // Update loading state
       App.setLoading(false)
     },
   
@@ -93,6 +82,7 @@ App = {
 
         var startDate = new Date(fromDate.toNumber() * 1000);
         var endDate = new Date(toDate.toNumber() * 1000);
+        const modifying_entity_string = await App.ariContract.getUserByAddress(modifying_entity)
 
         // Create the html for the task
         const $newariTemplate = $ariTemplate.clone()
@@ -104,7 +94,7 @@ App = {
             $newariTemplate.find('.block_timestamp').html(new Date(block_timestamp.toNumber() * 1000))
         else
             $newariTemplate.find('.block_timestamp').html(0)
-        $newariTemplate.find('.modifyingEntity').html(modifying_entity)
+        $newariTemplate.find('.modifyingEntity').html(modifying_entity_string)
 
         $('#ariList').append($newariTemplate)
   
@@ -118,13 +108,6 @@ App = {
       App.setLoading(true)
       const content = $('#houseId').val()
       await App.renderHouse(content)
-    },
-  
-    toggleCompleted: async (e) => {
-      App.setLoading(true)
-      const taskId = e.target.name
-      await App.todoList.toggleCompleted(taskId)
-      window.location.reload()
     },
   
     setLoading: (boolean) => {
