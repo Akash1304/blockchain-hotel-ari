@@ -1,4 +1,3 @@
-
 App = {
     loading: false,
     contracts: {},
@@ -12,30 +11,30 @@ App = {
   
     // https://medium.com/metamask/https-medium-com-metamask-breaking-change-injecting-web3-7722797916a8
     loadWeb3: async () => {
-      if (window.ethereum) { //check if Metamask is installed
-        try {
-            const address = await ethereum.request({ method: 'eth_requestAccounts' }); //connect Metamask
-            const obj = {
-                    connectedStatus: true,
-                    status: "",
-                    address: address
-                }
-                return obj;
-             
-        } catch (error) {
-            return {
-                connectedStatus: false,
-                status: "🦊 Connect to Metamask using the button on the top right."
-            }
-        }
-        
-  } else {
-        return {
-            connectedStatus: false,
-            status: "🦊 You must install Metamask into your browser: https://metamask.io/download.html"
-        }
-      } 
-    },
+        if (window.ethereum) { //check if Metamask is installed
+          try {
+              const address = await ethereum.request({ method: 'eth_accounts' }); //connect Metamask
+              const obj = {
+                      connectedStatus: true,
+                      status: "",
+                      address: address
+                  }
+                  return obj;
+               
+          } catch (error) {
+              return {
+                  connectedStatus: false,
+                  status: "🦊 Connect to Metamask using the button on the top right."
+              }
+          }
+          
+    } else {
+          return {
+              connectedStatus: false,
+              status: "🦊 You must install Metamask into your browser: https://metamask.io/download.html"
+          }
+        } 
+      },
   
     loadAccount: async () => {
       // Set the current blockchain account
@@ -44,7 +43,7 @@ App = {
     },
   
     loadContract: async () => {
-      // // Create a JavaScript version of the smart contract
+      // Create a JavaScript version of the smart contract
       const ariContract = await $.getJSON('ARIContract.json')
       App.contracts.ariContract = TruffleContract(ariContract)
       App.contracts.ariContract.setProvider(window.ethereum)
@@ -53,7 +52,6 @@ App = {
       App.ariContract = await App.contracts.ariContract.deployed()
 
       console.log(App.ariContract)
-
     },
   
     render: async () => {
@@ -69,22 +67,20 @@ App = {
       $('#account').html(App.account)
   
       // Render Tasks
-      await App.renderTasks()
+      //await App.renderTasks()
   
       // Update loading state
       App.setLoading(false)
     },
   
-    renderTasks: async () => {
+    renderHouse: async (houseId) => {
       // Load the total task count from the blockchain
       const ariCount = 1
       const $ariTemplate = $('.AriTemplate')
-  
-      // Render out each task with a new task template
       for (var i = 1; i <= ariCount; i++) {
         // Fetch the task data from the blockchain
-        const houseAri = await App.ariContract.houseArikeyMap(1)[1]
-        const currentAri = await App.ariContract.houseAriMap[1][houseAri]
+        const houseAri = await App.ariContract.houseArikeyMap[houseId][1]
+        const currentAri = await App.ariContract.houseAriMap[houseId][houseAri]
         const fromDate = currentAri.from_date()
         const toDate = currentAri.to_date()
         const price = currentAri.price()
@@ -110,7 +106,7 @@ App = {
     searchHouse: async () => {
       App.setLoading(true)
       const content = $('#houseId').val()
-      await App.todoList.createTask(content)
+      await App.renderHouse(content)
       window.location.reload()
     },
   
@@ -125,11 +121,13 @@ App = {
       App.loading = boolean
       const loader = $('#loader')
       const content = $('#content')
+      const ariList = $('#ariList')
       if (boolean) {
         loader.show()
-        content.hide()
+        ariList.hide()
       } else {
         loader.hide()
+        ariList.show()
         content.show()
       }
     }
