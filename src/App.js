@@ -96,8 +96,8 @@ App = {
 
         // Create the html for the task
         const $newariTemplate = $ariTemplate.clone()
-        $newariTemplate.find('.fromDate').html(startDate.getDate()+"/"+startDate.getMonth()+"/"+startDate.getFullYear())
-        $newariTemplate.find('.toDate').html(endDate.getDate()+"/"+endDate.getMonth()+"/"+endDate.getFullYear())
+        $newariTemplate.find('.fromDate').html(startDate.getDate()+"/"+(startDate.getMonth()+1)+"/"+startDate.getFullYear())
+        $newariTemplate.find('.toDate').html(endDate.getDate()+"/"+(endDate.getMonth()+1)+"/"+endDate.getFullYear())
         $newariTemplate.find('.price').html(price.toString())
         $newariTemplate.find('.available').html(available)
         if(block_timestamp != 0)
@@ -134,7 +134,7 @@ App = {
       const ariList = $('#ariList')
       if (boolean) {
         loader.show()
-        ariList.show()
+        ariList.hide()
       } else {
         loader.hide()
         ariList.show()
