@@ -25,7 +25,7 @@ contract UserContract{
         return users[msg.sender].name;
     }
 
-    function getUserByAddress(address queryAddress) public view validateUser returns(string memory){
+    function getUserByAddress(address queryAddress) public view returns(string memory){
         if(users[queryAddress].accessorType==accessor(0)){
             return "none";
         }
@@ -58,8 +58,37 @@ contract ARIContract is HouseContract{
     constructor() public {
       accessor choice = accessor.inventory_partner;
       onboardUser("new_partner",choice);
-      createHouse(1);
-      createARIForHouseByRange(1,1623064189,1623323389,256);
+      createHouse(1001);
+      createHouse(1002);
+      createHouse(1003);
+      createHouse(1004);
+      createARIForHouseByRange(1001,1623064189,1623323389,256);
+      createARIForHouseByRange(1001,1623110400,1623283200,166);
+      createARIForHouseByRange(1001,1626048000,1626566400,480);
+      createARIForHouseByRange(1001,1629244800,1629590400,456);
+      createARIForHouseByRange(1002,1625097600,1625443200,320);
+      createARIForHouseByRange(1002,1623064189,1623323389,256);
+      createARIForHouseByRange(1002,1625270400,1626393600,560);
+      createARIForHouseByRange(1002,1629590400,1630108800,420);
+      createARIForHouseByRange(1002,1630454400,1631059200,500);
+      createARIForHouseByRange(1003,1623486255,1623659055,1000);
+      createARIForHouseByRange(1003,1626078255,1626596655,2000);
+      createARIForHouseByRange(1003,1628670255,1629015855,3000);
+  createARIForHouseByRange(1003,1623064189,1623323389,1025);
+  createARIForHouseByRange(1003,1627806255,1628583855,1050);
+  createARIForHouseByRange(1004,1623486255,1623659055,100);
+  createARIForHouseByRange(1004,1626078255,1626596655,300);
+  createARIForHouseByRange(1004,1628670255,1629015855,200);
+  createARIForHouseByRange(1004,1623064189,1623323389,400);
+  createARIForHouseByRange(1004,1627806255,1628583855,500);
+  createARIForHouseByRange(1004,1633055055,1633314255,278);
+  createARIForHouseByRange(1004,1634178255,1634178255,789);
+  createARIForHouseByRange(1004,1635560655,1636338255,432);
+  createARIForHouseByRange(1004,1636943055,1637375055,125);
+      blockARI(1001,1623064189,1623323389)
+      blockARI(1002,1629590400,1630108800)
+
+      
    }
     
     struct Range{

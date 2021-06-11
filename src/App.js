@@ -74,20 +74,18 @@ App = {
     },
   
     renderHouse: async (houseId) => {
-
-      var s = $('.AriTemplate')
-      for(var i=1; i<$('.AriTemplate').length; i++){
-          s[i].remove()
-      }
       // Load the total task count from the blockchain
     const ariCount = await App.ariContract.getARICount(houseId)
-
+    const count = ariCount.toNumber()
+    for(var i=0; i<=$('.ariTemplate').length; i++){
+      console.log($('.ariTemplate').length);
+      $('.ariTemplate')[1] && $('.ariTemplate')[1].remove();
+  }
     if(ariCount == 0)
       App.setLoading(false)
 
-      const count = ariCount.toNumber()
-      console.log(count)
-      const $ariTemplate = $('.AriTemplate')
+      const $ariTemplate = $('.ariTemplate')
+      $ariTemplate.splice(1)
       for (var i = 0; i < count; i++) {
         // Fetch the task data from the blockchain
         const houseAri = await App.ariContract.houseArikeyMap(houseId,i)
@@ -100,8 +98,12 @@ App = {
         const block_timestamp = currentAri.block_timestamp
         const modifying_entity = currentAri.modifying_entity
 
+        console.log(modifying_entity)
+
         var startDate = new Date(fromDate.toNumber() * 1000);
         var endDate = new Date(toDate.toNumber() * 1000);
+
+        const modifying_entity_name = await App.ariContract.getUserByAddress(modifying_entity)
 
         // Create the html for the task
         const $newariTemplate = $ariTemplate.clone()
@@ -113,7 +115,7 @@ App = {
             $newariTemplate.find('.block_timestamp').html(new Date(block_timestamp.toNumber() * 1000))
         else
             $newariTemplate.find('.block_timestamp').html(0)
-        $newariTemplate.find('.modifyingEntity').html(modifying_entity)
+        $newariTemplate.find('.modifyingEntity').html(modifying_entity_name)
 
         $('#ariList').append($newariTemplate)
   
