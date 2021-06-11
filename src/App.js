@@ -74,8 +74,17 @@ App = {
     },
   
     renderHouse: async (houseId) => {
+
+      var s = $('.AriTemplate')
+      for(var i=1; i<$('.AriTemplate').length; i++){
+          s[i].remove()
+      }
       // Load the total task count from the blockchain
-      const ariCount = await App.ariContract.getARICount(houseId)
+    const ariCount = await App.ariContract.getARICount(houseId)
+
+    if(ariCount == 0)
+      App.setLoading(false)
+
       const count = ariCount.toNumber()
       console.log(count)
       const $ariTemplate = $('.AriTemplate')
